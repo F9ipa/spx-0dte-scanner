@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: spx-0dte-scanner
+    runtime: python
+    plan: free
+
+    buildCommand: pip install -r requirements.txt
+
+    startCommand: gunicorn --worker-class gthread --threads 8 --bind 0.0.0.0:$PORT app:app
+
+    envVars:
+      - key: ODTE_TOKEN
+        sync: false
+
+      - key: ODTE_WS_URL
+        value: wss://api.0dtespx.com/__ws
+
+      - key: ODTE_ORIGIN
+        value: https://www.0dtespx.com
